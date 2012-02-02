@@ -8,14 +8,6 @@ Show all links in the link category 'Techy':
 
     <ul class="links-list">[plus-one-links category_name="Techy"]</ul>
 
-Show all links in link categories 1 and 2, but don't include the Google +1 JavaScript (for when you will include it later):
-
-    <ul>[plus-one-links category="1,2" include_plusone_script="no"]</ul>
-
-Only output the JavaScript that will make all +1 buttons on the page display (should be output before +1 links):
-
-    [plus-one-links only_plusone_script="yes"]
-
 Output several link categories with the +1 JavaScript only output once:
 
     [plus-one-links only_plusone_script="yes"]
@@ -33,6 +25,7 @@ Output links with a custom template:
 Options
 --
 All the same options as the WordPress function [get_bookmarks()](http://codex.wordpress.org/Function_Reference/get_bookmarks) are provided.
+
 - `before` - Content to show up before each link.  Defaults to `<li class="link">`.
 - `after` - Content to show up after each link.  Defaults to `</li>`.
 - `template` - The template that will be used to display each link.  Defaults to `<a href="[url]">[name]</a> - [desc]<br/>[plusone]`.  Recognized placeholder values:  `[url]` (link URL), `[name]` (link name), `[desc]` (link description), and `[plusone]` (Google +1 button).
