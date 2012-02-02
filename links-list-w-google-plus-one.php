@@ -75,7 +75,7 @@ function plusonelinks_shortcode($atts, $content=NULL) {
         array(
             'before' => '<li class="link">',
             'after' => '</li>',
-			'plusone' => '1',
+			'plusone' => 'yes',
 			'orderby' => 'name', 
 			'order' => 'ASC',
 			'limit' => '-1', 
@@ -88,14 +88,9 @@ function plusonelinks_shortcode($atts, $content=NULL) {
             'search' => '.',
             'plusone_size' => 'small',
             'plusone_annotation' => 'inline',
-            'include_plusone_script' => '1',
-            'only_plusone_script' => ''
+            'include_plusone_script' => 'yes'
 		), $atts
     ));
-    if (plusonelinks_is_str_true($only_plusone_script)) {
-        // Only output the Google script for displaying +1 buttons
-        return $plusonelinks_plusone_script;
-    }
     $links = get_bookmarks(array(
         'orderby' => $orderby, 
         'order' => $order,
@@ -109,13 +104,9 @@ function plusonelinks_shortcode($atts, $content=NULL) {
         'search' => $search
     ));
     $output = '';
-    if (plusonelinks_is_str_true($include_plusone_script)) {
-        // Also output the Google script for displaying all +1 buttons
-        $output .= $plusonelinks_plusone_script;
-    }
     $template = (NULL == $content) ? $plusonelinks_default_tmpl : plusonelinks_clean($content);
+    $count = 0;
     foreach ($links as $link) {
-        $output .= plusonelinks_clean($before);
         $url = $link->link_url;
         $name = $link->link_name;
         $desc = $link->link_description;
@@ -123,13 +114,23 @@ function plusonelinks_shortcode($atts, $content=NULL) {
         $placeholders = array($plusonelinks_url_key, $plusonelinks_name_key,
             $plusonelinks_desc_key, $plusonelinks_plusone_key);
         $values = array($url, $name, $desc, $plus_one);
-        $link_output = str_replace($placeholders, $values, $template);
-        $output .= $link_output;
+
+        // Add the link to the output:
+        $output .= plusonelinks_clean($before);
+        if (0 == $count && plusonelinks_is_str_true($include_plusone_script)) {
+            // Also output the Google script for displaying all +1 buttons.
+            // Insert it here, within the user-given begin tag, so that WordPress
+            // hopefully won't auto-paragraph it.
+            $output .= $plusonelinks_plusone_script;
+        }
+        $output .= str_replace($placeholders, $values, $template);
         $output .= plusonelinks_clean($after);
+        $count++;
     }
     return $output;
 }
 
+/* Strip the paragraph and break tags that WordPress adds. */
 function plusonelinks_clean($str) {
     return preg_replace('#^<\/p>|<p>|<br \/>|<br>|<br\/>$#', '', $str);
 }
