@@ -17,7 +17,7 @@ Output several link categories with the +1 JavaScript only output once:
     <h2>Third Category</h2>
     <div>[plus-one-links category="57" include_plusone_script="no" before="" after="<br style='clear:both' />" limit="5"]</div>
 
-Output links with a custom template:
+The template is what's used to display each link.  A custom template is passed between the `[plus-one-links]` and `[/plus-one-links]` tags.  Defaults to `<a href="{url}">{name}</a> - {desc}<br/>{plusone}`.  Recognized placeholder values:  `{url}` (link URL), `{name}` (link name), `{desc}` (link description), and `{plusone}` (Google +1 button).  Example of displaying links with a custom template:
 
     <table>[plus-one-links limit="4" category_name="Personal" plusone_size="tall" plusone_annotation="bubble" before="<tr>" after="</tr>"]<td>{plusone}</td><td><a href="{url}" title="{desc}">{name}</a></td>[/plus-one-links]</table>
 
@@ -27,7 +27,6 @@ All the same options as the WordPress function [get_bookmarks()](http://codex.wo
 
 - `before` - Content to show up before each link.  Defaults to `<li class="link">`.
 - `after` - Content to show up after each link.  Defaults to `</li>`.
-- `template` - The template that will be used to display each link.  Defaults to `<a href="{url}">{name}</a> - {desc}<br/>{plusone}`.  Recognized placeholder values:  `{url}` (link URL), `{name}` (link name), `{desc}` (link description), and `{plusone}` (Google +1 button).
 - `plusone` - Whether to show a Google +1 button with each link.  Valid values:  `yes`, `no`.  Defaults to `yes`.
 - `include_plusone_script` - Whether to include the JavaScript that will make +1 buttons show up.  Valid values:  `yes`, `no`.  Defaults to `yes`.  If you want to have several instances of `[plus-one-links]`, for outputting multiple categories in separate lists for example, you probably only want the `<script>` tag to be output once at the beginning.
 - `plusone_size` - The size of the Google +1 button.  Valid values:  `small`, `standard`, `medium`, and `tall`.  [Examples here](http://www.google.com/webmasters/+1/button/).  Default value:  `small`.
