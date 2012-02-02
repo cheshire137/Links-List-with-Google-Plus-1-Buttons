@@ -20,7 +20,7 @@ Output several link categories with the +1 JavaScript only output once:
 
 Output links with a custom template:
 
-    [plus-one-links category_name="Awesomeness" plusone_size="tall"]<a href="[url]" title="[desc]">[name]</a> [plusone][/plus-one-links]
+    [plus-one-links category_name="Awesomeness" plusone_size="tall"]<a href="{url}" title="{desc}">{name}</a> {plusone}[/plus-one-links]
 
 Options
 --
@@ -28,7 +28,7 @@ All the same options as the WordPress function [get_bookmarks()](http://codex.wo
 
 - `before` - Content to show up before each link.  Defaults to `<li class="link">`.
 - `after` - Content to show up after each link.  Defaults to `</li>`.
-- `template` - The template that will be used to display each link.  Defaults to `<a href="[url]">[name]</a> - [desc]<br/>[plusone]`.  Recognized placeholder values:  `[url]` (link URL), `[name]` (link name), `[desc]` (link description), and `[plusone]` (Google +1 button).
+- `template` - The template that will be used to display each link.  Defaults to `<a href="{url}">{name}</a> - {desc}<br/>{plusone}`.  Recognized placeholder values:  `{url}` (link URL), `{name}` (link name), `{desc}` (link description), and `{plusone}` (Google +1 button).
 - `plusone` - Whether to show a Google +1 button with each link.  Valid values:  `yes`, `no`.  Defaults to `yes`.
 - `only_plusone_script` - Whether to only output JavaScript to make all Google +1 buttons display.  Valid values:  `yes`, `no`.  Defaults to `no`.  If set to `yes`, no links will be displayed and all other parameters will be ignored.
 - `include_plusone_script` - Whether to include the JavaScript that will make +1 buttons show up.  Valid values:  `yes`, `no`.  Defaults to `yes`.  If you want to have several instances of `[plus-one-links]`, for outputting multiple categories in separate lists for example, you probably only want the `<script>` tag to be output once at the beginning.

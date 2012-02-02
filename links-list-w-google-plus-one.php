@@ -26,7 +26,11 @@ License: GPL2
 
 add_shortcode('plus-one-links', 'plusonelinks_shortcode');
 
-$plusonelinks_default_tmpl = '<a href="[url]">[name]</a> - [desc]<br/>[plusone]';
+$plusonelinks_url_key = '{url}';
+$plusonelinks_name_key = '{name}';
+$plusonelinks_desc_key = '{desc}';
+$plusonelinks_plusone_key = '{plusone}';
+$plusonelinks_default_tmpl = '<a href="' . $plusonelinks_url_key . '">' . $plusonelinks_name_key . '</a> - ' . $plusonelinks_desc_key . '<br/>' . $plusonelinks_plusone_key;
 // Explicit script:
 /*$plusonelinks_plusone_script = '<script type="text/javascript">' .
       '(function() {' .
@@ -64,7 +68,9 @@ function plusonelinks_is_str_true($str) {
 }
 
 function plusonelinks_shortcode($atts, $content=NULL) {
-    global $plusonelinks_default_tmpl, $plusonelinks_plusone_script;
+    global $plusonelinks_default_tmpl, $plusonelinks_plusone_script,
+        $plusonelinks_url_key, $plusonelinks_name_key, $plusonelinks_desc_key,
+        $plusonelinks_plusone_key;
     extract(shortcode_atts(
         array(
             'before' => '<li class="link">',
@@ -102,23 +108,29 @@ function plusonelinks_shortcode($atts, $content=NULL) {
         'exclude' => $exclude,
         'search' => $search
     ));
-    $template = (NULL == $content) ? $plusonelinks_default_tmpl : $content;
     $output = '';
     if (plusonelinks_is_str_true($include_plusone_script)) {
         // Also output the Google script for displaying all +1 buttons
         $output .= $plusonelinks_plusone_script;
     }
+    $template = (NULL == $content) ? $plusonelinks_default_tmpl : plusonelinks_clean($content);
     foreach ($links as $link) {
-        $output .= $before;
+        $output .= plusonelinks_clean($before);
         $url = $link->link_url;
         $name = $link->link_name;
         $desc = $link->link_description;
         $plus_one = plusonelinks_plusone($url, $plusone_size, $plusone_annotation);
-        $placeholders = array('[url]', '[name]', '[desc]', '[plusone]');
+        $placeholders = array($plusonelinks_url_key, $plusonelinks_name_key,
+            $plusonelinks_desc_key, $plusonelinks_plusone_key);
         $values = array($url, $name, $desc, $plus_one);
-        $output .= str_replace($placeholders, $values, $template);
-        $output .= $after;
+        $link_output = str_replace($placeholders, $values, $template);
+        $output .= $link_output;
+        $output .= plusonelinks_clean($after);
     }
     return $output;
+}
+
+function plusonelinks_clean($str) {
+    return preg_replace('#^<\/p>|<p>|<br \/>|<br>|<br\/>$#', '', $str);
 }
 ?>
