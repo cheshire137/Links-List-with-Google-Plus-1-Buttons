@@ -20,7 +20,7 @@ Output several link categories with the +1 JavaScript only output once:
 
 Output links with a custom template:
 
-    [plus-one-links category_name="Awesomeness" plusone_size="tall"]<a href="{url}" title="{desc}">{name}</a> {plusone}[/plus-one-links]
+    <table>[plus-one-links limit="4" category_name="Personal" plusone_size="tall" plusone_annotation="bubble" before="<tr>" after="</tr>"]<td>{plusone}</td><td><a href="{url}" title="{desc}">{name}</a></td>[/plus-one-links]</table>
 
 Options
 --
