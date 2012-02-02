@@ -26,7 +26,7 @@ License: GPL2
 
 add_shortcode('plus-one-links', 'plusonelinks_shortcode');
 
-$plusonelinks_default_tmpl = '<a href="[url]">[name]</a> - [desc] [plusone]';
+$plusonelinks_default_tmpl = '<a href="[url]">[name]</a> - [desc]<br/>[plusone]';
 // Explicit script:
 /*$plusonelinks_plusone_script = '<script type="text/javascript">' .
       '(function() {' .
@@ -68,7 +68,6 @@ function plusonelinks_shortcode($atts, $content=NULL) {
     extract(shortcode_atts(
         array(
             'before' => '<li class="link">',
-            'template' => $plusonelinks_default_tmpl,
             'after' => '</li>',
 			'plusone' => '1',
 			'orderby' => 'name', 
@@ -103,6 +102,7 @@ function plusonelinks_shortcode($atts, $content=NULL) {
         'exclude' => $exclude,
         'search' => $search
     ));
+    $template = (NULL == $content) ? $plusonelinks_default_tmpl : $content;
     $output = '';
     if (plusonelinks_is_str_true($include_plusone_script)) {
         // Also output the Google script for displaying all +1 buttons
