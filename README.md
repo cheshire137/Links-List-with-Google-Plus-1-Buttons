@@ -8,14 +8,14 @@ Show all links in the link category 'Techy':
 
     <ul class="links-list">[plus-one-links category_name="Techy"]</ul>
 
-Output several link categories with the +1 JavaScript only output once:
+Output several link categories:
 
     <h2>First Category</h2>
-    <ul>[plus-one-links category="111" include_plusone_script="yes" limit="3"]</ul>
+    <ul>[plus-one-links category="111" limit="3"]</ul>
     <h2>Second Category</h2>
-    <ul>[plus-one-links category="61" include_plusone_script="no" limit="3"]</ul>
+    <ul>[plus-one-links category="61" limit="3"]</ul>
     <h2>Third Category</h2>
-    <div>[plus-one-links category="57" include_plusone_script="no" before="" after="<br style='clear:both' />" limit="5"]</div>
+    <div>[plus-one-links category="57" before="" after="<br style='clear:both' />" limit="5"]</div>
 
 The template is what's used to display each link.  A custom template is passed between the `[plus-one-links]` and `[/plus-one-links]` tags.  Defaults to `<a href="{url}">{name}</a> - {desc}<br/>{plusone}`.  Recognized placeholder values:  `{url}` (link URL), `{name}` (link name), `{desc}` (link description), and `{plusone}` (Google +1 button).  Example of displaying links with a custom template:
 
@@ -28,7 +28,6 @@ All the same options as the WordPress function [get_bookmarks()](http://codex.wo
 - `before` - Content to show up before each link.  Defaults to `<li class="link">`.
 - `after` - Content to show up after each link.  Defaults to `</li>`.
 - `plusone` - Whether to show a Google +1 button with each link.  Valid values:  `yes`, `no`.  Defaults to `yes`.
-- `include_plusone_script` - Whether to include the JavaScript that will make +1 buttons show up.  Valid values:  `yes`, `no`.  Defaults to `yes`.  If you want to have several instances of `[plus-one-links]`, for outputting multiple categories in separate lists for example, you probably only want the `<script>` tag to be output once at the beginning.
 - `plusone_size` - The size of the Google +1 button.  Valid values:  `small`, `standard`, `medium`, and `tall`.  [Examples here](http://www.google.com/webmasters/+1/button/).  Default value:  `small`.
 - `plusone_annotation` - The style of the Google +1 text.  Valid values:  `inline`, `bubble`, and `none`.  [Examples here](http://www.google.com/webmasters/+1/button/).  Default value:  `inline`.
 - `category` - Comma separated list of bookmark category ID's.

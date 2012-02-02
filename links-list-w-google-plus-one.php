@@ -24,6 +24,13 @@ License: GPL2
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+function plusonelinks_script_enqueue() {
+    wp_deregister_script('google-plus-one');
+    wp_register_script('google-plus-one', 'http://apis.google.com/js/plusone.js');
+    wp_enqueue_script('google-plus-one');
+}
+add_action('wp_print_scripts', 'plusonelinks_script_enqueue');
+
 add_shortcode('plus-one-links', 'plusonelinks_shortcode');
 
 $plusonelinks_url_key = '{url}';
@@ -31,7 +38,6 @@ $plusonelinks_name_key = '{name}';
 $plusonelinks_desc_key = '{desc}';
 $plusonelinks_plusone_key = '{plusone}';
 $plusonelinks_default_tmpl = '<a href="' . $plusonelinks_url_key . '">' . $plusonelinks_name_key . '</a> - ' . $plusonelinks_desc_key . '<br/>' . $plusonelinks_plusone_key;
-// Explicit script:
 /*$plusonelinks_plusone_script = '<script type="text/javascript">' .
       '(function() {' .
         "var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;" .
@@ -39,27 +45,36 @@ $plusonelinks_default_tmpl = '<a href="' . $plusonelinks_url_key . '">' . $pluso
         "var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);" .
       '})();' .
       '</script>';*/
-// On-load script:
-$plusonelinks_plusone_script = '<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>';
+/*$plusonelinks_plusone_script = '<script type="text/javascript" src="https://apis.google.com/js/plusone.js">' .
+    '{"parsetags": "explicit"}' .
+    '</script><script type="text/javascript">gapi.plusone.go();</script>';*/
+//$plusonelinks_plusone_script = '<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>';
 
 function plusonelinks_plusone($url, $size, $annotation) {
-    $sizeStr = 'data-size="small"';
+    //$sizePrefix = 'data-size';
+    $sizePrefix = 'size';
+    $sizeStr = $sizePrefix . '="small"';
     if ('standard' == $size) {
         $sizeStr = '';
     } else if ('medium' == $size) {
-        $sizeStr = 'data-size="medium"';
+        $sizeStr = $sizePrefix . '="medium"';
     } else if ('tall' == $size) {
-        $sizeStr = 'data-size="tall"';
+        $sizeStr = $sizePrefix . '="tall"';
     }
 
-    $annotStr = 'data-annotation="inline"';
+    //$annotPrefix = 'data-annotation';
+    $annotPrefix = 'annotation';
+    $annotStr = $annotPrefix . '="inline"';
     if ('bubble' == $annotation) {
         $annotStr = '';
     } else if ('none' == $annotation) {
-        $annotStr = 'data-annotation="none"';
+        $annotStr = $annotPrefix . '="none"';
     }
 
-    return '<div class="g-plusone" ' . $sizeStr . ' ' . $annotStr . ' data-href="' . $url . '"></div>';
+    //return '<div class="g-plusone" ' . $sizeStr . ' ' . $annotStr . ' data-href="' . $url . '"></div>';
+    //$hrefPrefix = 'data-href';
+    $hrefPrefix = 'href';
+    return '<g:plusone ' . $sizeStr . ' ' . $annotStr . ' ' . $hrefPrefix . '="' . $url . '"></g:plusone>';
 }
 
 function plusonelinks_is_str_true($str) {
@@ -87,8 +102,7 @@ function plusonelinks_shortcode($atts, $content=NULL) {
             'exclude' => null,
             'search' => '.',
             'plusone_size' => 'small',
-            'plusone_annotation' => 'inline',
-            'include_plusone_script' => 'yes'
+            'plusone_annotation' => 'inline'
         ), $atts
     ));
     $links = get_bookmarks(array(
@@ -105,7 +119,6 @@ function plusonelinks_shortcode($atts, $content=NULL) {
     ));
     $output = '';
     $template = (NULL == $content) ? $plusonelinks_default_tmpl : plusonelinks_clean($content);
-    $count = 0;
     foreach ($links as $link) {
         $url = $link->link_url;
         $name = $link->link_name;
@@ -117,15 +130,8 @@ function plusonelinks_shortcode($atts, $content=NULL) {
 
         // Add the link to the output:
         $output .= plusonelinks_clean($before);
-        if (0 == $count && plusonelinks_is_str_true($include_plusone_script)) {
-            // Also output the Google script for displaying all +1 buttons.
-            // Insert it here, within the user-given begin tag, so that WordPress
-            // hopefully won't auto-paragraph it.
-            $output .= $plusonelinks_plusone_script;
-        }
         $output .= str_replace($placeholders, $values, $template);
         $output .= plusonelinks_clean($after);
-        $count++;
     }
     return $output;
 }
