@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Links List with Google +1 Button
-Plugin URI: http://URI_Of_Page_Describing_Plugin_and_Updates
+Plugin URI: https://github.com/moneypenny/Links-List-with-Google-Plus-1-Buttons
 Description: Provides a Wordpress shortcode allowing you to insert a list of links, optionally with a Google +1 button for each link.
 Version: 0.1
 Author: Sarah Vessels
