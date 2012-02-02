@@ -75,21 +75,21 @@ function plusonelinks_shortcode($atts, $content=NULL) {
         array(
             'before' => '<li class="link">',
             'after' => '</li>',
-			'plusone' => 'yes',
-			'orderby' => 'name', 
-			'order' => 'ASC',
-			'limit' => '-1', 
-			'category' => null,
-			'category_name' => null, 
-			'hide_invisible' => 1,
+            'plusone' => 'yes',
+            'orderby' => 'name', 
+            'order' => 'ASC',
+            'limit' => '-1', 
+            'category' => null,
+            'category_name' => null, 
+            'hide_invisible' => 1,
             'show_updated' => 0,
-			'include' => null,
-			'exclude' => null,
+            'include' => null,
+            'exclude' => null,
             'search' => '.',
             'plusone_size' => 'small',
             'plusone_annotation' => 'inline',
             'include_plusone_script' => 'yes'
-		), $atts
+        ), $atts
     ));
     $links = get_bookmarks(array(
         'orderby' => $orderby, 
